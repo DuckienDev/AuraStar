@@ -96,16 +96,15 @@ a { color: inherit; text-decoration: none; }
    globe so the halo is always visible around the rim. */
 .hero::before {
   content: ""; position: absolute; z-index: 2; pointer-events: none;
-  width: 660px; height: 660px;
+  width: 452px; height: 452px;
   left: 65.5%; top: 50%; transform: translate(-50%, -50%);
   border-radius: 50%;
+  /* a thin, soft blue rim right at the globe's edge (~90% of this box) —
+     hugging the limb, not a thick halo. */
   background: radial-gradient(circle,
-    rgba(205, 231, 255, 0) 56%,
-    rgba(214, 238, 255, 0.95) 61%,
-    rgba(150, 200, 255, 0.70) 66%,
-    rgba(110, 170, 255, 0.38) 78%,
-    rgba(90, 150, 255, 0.14) 90%,
-    rgba(90, 150, 255, 0) 100%);
+    rgba(190, 222, 255, 0) 83%,
+    rgba(188, 221, 255, 0.5) 90%,
+    rgba(160, 205, 255, 0) 97%);
   mix-blend-mode: screen;
 }
 /* readability scrim: dark on the left, clear on the right */

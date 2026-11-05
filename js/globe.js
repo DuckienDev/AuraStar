@@ -129,7 +129,7 @@
     function spin() {
       if (!spinning) return;
       var c = map.getCenter();
-      c.lng -= 0.18;
+      c.lng -= 0.34;
       map.easeTo({ center: c, duration: 1000, easing: function (t) { return t; } });
     }
     map.on('moveend', function () { if (spinning) spin(); });

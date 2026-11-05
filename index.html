@@ -174,19 +174,7 @@
   <script src="js/globe.js"></script>
   <script src="js/scroll.js"></script>
   <script src="js/i18n.js"></script>
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-    var form = document.querySelector(".signup");
-    var btn = document.getElementById("notify");
-    if (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        var email = (document.getElementById("email").value || "").trim();
-        btn.textContent = email ? "Thanks ✦" : "Coming soon ✦";
-        btn.disabled = true;
-        setTimeout(function () { btn.disabled = false; btn.textContent = "Notify me ✦"; }, 2600);
-      });
-    }
-  </script>
+  <script src="js/waitlist.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

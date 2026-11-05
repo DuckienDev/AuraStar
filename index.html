@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aura Star — Every moment is a star</title>
-  <meta name="description" content="Aura Star turns the whole planet into your feed. Explore a glowing 3D globe, pin your moments to the exact places they happened, and connect with friends worldwide. Coming soon." />
-  <meta name="theme-color" content="#0b1327" />
+  <meta name="description" content="Aura Star turns the whole planet into your feed. Explore a cinematic satellite globe, pin your moments to the exact places they happened, and connect with friends worldwide. Coming soon." />
+  <meta name="theme-color" content="#05080f" />
   <meta name="color-scheme" content="dark" />
+  <meta name="robots" content="noindex" />
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Aura Star — Every moment is a star" />
-  <meta property="og:description" content="Share your moments on a glowing 3D globe and connect with friends worldwide. Coming soon." />
+  <meta property="og:description" content="Share your moments on a cinematic 3D globe and connect with friends worldwide. Coming soon." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/icon.png" />
 
@@ -20,57 +20,58 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <!-- MapLibre GL JS — the same engine the app uses for its globe -->
+  <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <div class="wrap">
-    <!-- Nav -->
-    <nav class="nav">
-      <a class="brand" href="#top" aria-label="Aura Star home">
-        <img src="assets/star.png" alt="Aura Star logo" />
-        <span>Aura Star</span>
-      </a>
-      <a class="ghlink" href="https://github.com/DuckienDev/AuraStar" target="_blank" rel="noopener">View on GitHub</a>
-    </nav>
+  <!-- Nav -->
+  <nav class="nav">
+    <a class="brand" href="#top" aria-label="Aura Star home">
+      <img src="assets/star.png" alt="" />
+      <span>Aura&nbsp;Star</span>
+    </a>
+    <a class="navcta" href="#cta">Get notified</a>
+  </nav>
 
-    <!-- Hero -->
-    <header class="hero" id="top">
-      <div class="hero-copy">
-        <span class="badge"><span class="dot"></span> Coming soon</span>
-        <h1>Every moment<br />is a <span class="shine">star.</span></h1>
-        <p class="tagline">Share your moments on a glowing 3D globe.</p>
-        <p class="tagline-vi">Mỗi khoảnh khắc là một vì sao.</p>
-        <p class="lead">
-          Aura Star turns the whole planet into your feed. Explore a cinematic
-          Earth, pin the moments worth sharing to the exact places they happened,
-          and stay connected with the friends who matter.
-        </p>
-        <form class="signup" onsubmit="return false;">
-          <input type="email" id="email" placeholder="you@email.com" aria-label="Email address" />
-          <button class="btn" id="notify" type="submit">Notify me ✦</button>
-        </form>
-        <p class="note">No spam — just one note the day Aura Star goes live.</p>
-      </div>
-
-      <div class="hero-visual">
-        <canvas id="globe"></canvas>
-        <span class="spin-hint">drag to spin the globe</span>
-      </div>
-    </header>
-  </div>
+  <!-- Hero: full-bleed satellite globe -->
+  <header class="hero" id="top">
+    <div id="globe" aria-hidden="true"></div>
+    <div class="hero-scrim"></div>
+    <div class="hero-inner">
+      <span class="badge"><span class="dot"></span> Coming soon</span>
+      <h1 class="display">Every&nbsp;moment<br />is&nbsp;a&nbsp;<em>star.</em></h1>
+      <p class="tagline-vi">Mỗi khoảnh khắc là một vì sao.</p>
+      <p class="lead">
+        Aura Star turns the whole planet into your feed. Explore a cinematic
+        satellite globe, pin the moments worth sharing to the exact places they
+        happened, and stay connected with the friends who matter.
+      </p>
+      <form class="signup" novalidate>
+        <input type="email" id="email" placeholder="you@email.com" aria-label="Email address" />
+        <button class="btn" id="notify" type="submit">Notify me ✦</button>
+      </form>
+      <p class="note">No spam — just one note the day Aura Star goes live.</p>
+    </div>
+    <a class="scroll-cue" href="#features" aria-label="Scroll to features">
+      <span></span>
+    </a>
+  </header>
 
   <!-- Features -->
   <section class="section" id="features">
     <div class="wrap">
+      <p class="eyebrow">What makes it glow</p>
       <h2>A whole world in your pocket</h2>
-      <p class="sub">Four atmospheric layers that turn a map into a living universe of moments.</p>
+      <p class="sub">Atmospheric layers that turn a map into a living universe of moments.</p>
       <div class="cards">
         <article class="card">
           <div class="ico">🌍</div>
           <h3>A living 3D globe</h3>
-          <p>Spin a cinematic Earth with real-time day and night, a soft glowing atmosphere, and a drifting starfield. Posts bloom as warm dots around the world.</p>
+          <p>Spin a cinematic satellite Earth with real-time day and night, a soft glowing atmosphere, and a drifting starfield. Posts bloom as warm dots around the world.</p>
         </article>
         <article class="card">
           <div class="ico">✦</div>
@@ -80,7 +81,7 @@
         <article class="card">
           <div class="ico">🔗</div>
           <h3>Connect with friends</h3>
-          <p>See where your friends are and glowing dashed arcs drawn from you to each of them, with the distance between you. Sharing is always opt-in.</p>
+          <p>See where your friends are, with glowing arcs drawn from you to each of them and the distance between you. Sharing is always opt-in.</p>
         </article>
         <article class="card">
           <div class="ico">🔒</div>
@@ -102,29 +103,28 @@
   </section>
 
   <!-- Screenshots -->
-  <section class="section" id="screens">
+  <section class="section alt" id="screens">
     <div class="wrap">
-      <h2>See it in motion</h2>
+      <p class="eyebrow">See it in motion</p>
+      <h2>Moments, pinned to the planet</h2>
       <p class="sub">A glimpse of the living globe, your friends across the world, and the moments pinned to it.</p>
-      <div class="screens-outer">
-        <div class="screens">
-          <figure class="phone">
-            <img src="assets/screens/01_login.png" alt="Aura Star sign-in over the globe" loading="lazy" />
-            <figcaption class="cap">Every moment is a star</figcaption>
-          </figure>
-          <figure class="phone">
-            <img src="assets/screens/02_world_thumbnails.png" alt="Moments appearing on a living globe" loading="lazy" />
-            <figcaption class="cap">Discover moments on a living globe</figcaption>
-          </figure>
-          <figure class="phone">
-            <img src="assets/screens/03_friends_connections.png" alt="Friends connected by glowing arcs" loading="lazy" />
-            <figcaption class="cap">See your friends across the world</figcaption>
-          </figure>
-          <figure class="phone">
-            <img src="assets/screens/04_create_post.png" alt="Creating a post pinned to a place" loading="lazy" />
-            <figcaption class="cap">Share a moment, right where it happened</figcaption>
-          </figure>
-        </div>
+      <div class="screens">
+        <figure class="phone">
+          <img src="assets/screens/01_login.png" alt="Aura Star sign-in over the globe" loading="lazy" />
+          <figcaption>Every moment is a star</figcaption>
+        </figure>
+        <figure class="phone">
+          <img src="assets/screens/02_world_thumbnails.png" alt="Moments appearing on a living globe" loading="lazy" />
+          <figcaption>Discover moments on a living globe</figcaption>
+        </figure>
+        <figure class="phone">
+          <img src="assets/screens/03_friends_connections.png" alt="Friends connected by glowing arcs" loading="lazy" />
+          <figcaption>See your friends across the world</figcaption>
+        </figure>
+        <figure class="phone">
+          <img src="assets/screens/04_create_post.png" alt="Creating a post pinned to a place" loading="lazy" />
+          <figcaption>Share a moment where it happened</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -133,7 +133,7 @@
   <section class="section" id="cta">
     <div class="wrap">
       <div class="cta">
-        <img src="assets/star.png" alt="Aura Star" />
+        <img src="assets/star.png" alt="" />
         <h2>Light up the map.</h2>
         <p>Aura Star is almost here. Leave your email and we'll let you know the moment it lands.</p>
         <div class="store-badges">
@@ -148,24 +148,22 @@
   <footer>
     <div class="wrap foot">
       <a class="brand" href="#top">
-        <img src="assets/star.png" alt="" width="24" />
+        <img src="assets/star.png" alt="" width="22" />
         <span>Aura Star</span>
       </a>
       <div class="links">
         <a href="#features">Features</a>
         <a href="#screens">Screens</a>
-        <a href="https://github.com/DuckienDev/AuraStar" target="_blank" rel="noopener">GitHub</a>
+        <a href="#cta">Get notified</a>
       </div>
-      <span class="copyright">© <span id="year">2026</span> Aura Star. Every moment is a star.</span>
+      <span class="copyright">© <span id="year">2026</span> Aura Star · Every moment is a star.</span>
     </div>
   </footer>
 
-  <!-- three.js (single CDN dependency) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
   <script src="js/globe.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    // Non-functional signup: prefill a mailto so nothing is fabricated.
     var form = document.querySelector(".signup");
     var btn = document.getElementById("notify");
     if (form) {
@@ -174,10 +172,7 @@
         var email = (document.getElementById("email").value || "").trim();
         btn.textContent = email ? "Thanks ✦" : "Coming soon ✦";
         btn.disabled = true;
-        setTimeout(function () {
-          btn.disabled = false;
-          btn.textContent = "Notify me ✦";
-        }, 2600);
+        setTimeout(function () { btn.disabled = false; btn.textContent = "Notify me ✦"; }, 2600);
       });
     }
   </script>

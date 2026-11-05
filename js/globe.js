@@ -93,6 +93,44 @@
       });
     } catch (e) {}
 
+    // Thin atmosphere rim that ALWAYS hugs the globe — drawn on a canvas using
+    // the globe's real on-screen centre + radius, so it lines up on any screen.
+    var atmo = document.createElement('canvas');
+    atmo.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;' +
+      'pointer-events:none;z-index:3;';
+    map.getContainer().appendChild(atmo);
+    var actx = atmo.getContext('2d');
+    var aw = 0, ah = 0, adpr = Math.min(window.devicePixelRatio || 1, 2);
+    function globeRadius() {
+      var t = map.transform;
+      var ws = (t && t.worldSize) ? t.worldSize : (512 * Math.pow(2, map.getZoom()));
+      return ws / (2 * Math.PI);
+    }
+    function drawAtmo() {
+      var el = map.getContainer();
+      var w = el.clientWidth, h = el.clientHeight;
+      if (!w || !h) return;
+      if (w !== aw || h !== ah) {
+        aw = w; ah = h;
+        atmo.width = Math.floor(w * adpr); atmo.height = Math.floor(h * adpr);
+        actx.setTransform(adpr, 0, 0, adpr, 0, 0);
+      }
+      actx.clearRect(0, 0, w, h);
+      var c = map.project(map.getCenter());
+      var R = globeRadius();
+      var g = actx.createRadialGradient(c.x, c.y, R * 0.965, c.x, c.y, R * 1.16);
+      g.addColorStop(0.0, 'rgba(198,226,255,0)');
+      g.addColorStop(0.2, 'rgba(197,225,255,0.6)');   // thin bright rim at the limb
+      g.addColorStop(0.45, 'rgba(150,198,255,0.22)');
+      g.addColorStop(1.0, 'rgba(130,185,255,0)');     // soft hazy fade outward
+      actx.globalCompositeOperation = 'lighter';
+      actx.fillStyle = g;
+      actx.beginPath(); actx.arc(c.x, c.y, R * 1.16, 0, Math.PI * 2); actx.fill();
+    }
+    map.on('render', drawAtmo);
+    window.addEventListener('resize', drawAtmo);
+    drawAtmo();
+
     // Gentle auto-spin until the visitor grabs it; resumes after release.
     var spinning = !reduce, idle;
     function spin() {

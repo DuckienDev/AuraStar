@@ -94,21 +94,14 @@ a { color: inherit; text-decoration: none; }
    radius is fixed by its zoom (~200px), centred at ~65.5% / 50% of the hero,
    so a fixed-size ring lines up with the Earth's edge. Sits just above the
    globe so the halo is always visible around the rim. */
+/* faint ambient glow behind the globe for depth; the precise atmosphere rim is
+   drawn on a canvas in globe.js so it always hugs the Earth's real edge. */
 .hero::before {
-  content: ""; position: absolute; z-index: 2; pointer-events: none;
-  width: 520px; height: 520px;
+  content: ""; position: absolute; z-index: 0; pointer-events: none;
+  width: min(82vmin, 780px); height: min(82vmin, 780px);
   left: 65.5%; top: 50%; transform: translate(-50%, -50%);
-  border-radius: 50%;
-  /* a thin blue rim hugging the globe's edge (~80% of this box), fading into a
-     soft hazy glow that dissolves gently outward into space. */
   background: radial-gradient(circle,
-    rgba(190, 222, 255, 0) 71%,
-    rgba(189, 221, 255, 0.5) 80%,
-    rgba(165, 207, 255, 0.2) 86%,
-    rgba(140, 190, 255, 0.07) 94%,
-    rgba(140, 190, 255, 0) 100%);
-  mix-blend-mode: screen;
-  filter: blur(2.5px);
+    rgba(90, 150, 255, 0.10) 0%, rgba(90, 150, 255, 0) 60%);
 }
 /* readability scrim: dark on the left, clear on the right */
 .hero-scrim {

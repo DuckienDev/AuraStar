@@ -81,30 +81,21 @@
   map.on('load', function () {
     try { map.setProjection({ type: 'globe' }); } catch (e) {}
     try {
+      // Soft white-blue atmosphere hugging the globe's limb.
       map.setSky({
-        'sky-color': '#0a1836', 'horizon-color': '#1b2b57',
-        'fog-color': '#05080f', 'fog-ground-blend': 0.5,
-        'horizon-fog-blend': 0.6, 'sky-horizon-blend': 0.8, 'atmosphere-blend': 0.9
+        'sky-color': '#2d4f8f',
+        'horizon-color': '#bcd8ff',
+        'fog-color': '#e3eeff',
+        'fog-ground-blend': 0.08,
+        'horizon-fog-blend': 0.92,
+        'sky-horizon-blend': 0.85,
+        'atmosphere-blend': 1
       });
     } catch (e) {}
 
-    var arcs = PAIRS.map(function (p) {
-      return { type: 'Feature',
-        geometry: { type: 'LineString', coordinates: gcArc(CITIES[p[0]], CITIES[p[1]], 64) } };
-    });
     var dots = Object.keys(CITIES).map(function (k) {
       return { type: 'Feature', geometry: { type: 'Point', coordinates: CITIES[k] } };
     });
-
-    map.addSource('arcs', { type: 'geojson', lineMetrics: true,
-      data: { type: 'FeatureCollection', features: arcs } });
-    map.addLayer({ id: 'arc-glow', type: 'line', source: 'arcs',
-      layout: { 'line-cap': 'round' },
-      paint: { 'line-color': '#FFB84D', 'line-width': 5, 'line-opacity': 0.12, 'line-blur': 4 } });
-    map.addLayer({ id: 'arc', type: 'line', source: 'arcs',
-      layout: { 'line-cap': 'round' },
-      paint: { 'line-color': '#FFD08A', 'line-width': 1.6, 'line-opacity': 0.95,
-        'line-dasharray': [1.5, 1.5] } });
 
     map.addSource('dots', { type: 'geojson',
       data: { type: 'FeatureCollection', features: dots } });
@@ -113,16 +104,6 @@
     map.addLayer({ id: 'dot', type: 'circle', source: 'dots',
       paint: { 'circle-color': '#FFE3B0', 'circle-radius': 3,
         'circle-stroke-color': '#FFB84D', 'circle-stroke-width': 1.4 } });
-
-    // Flowing "ant-path" dash animation on the arcs.
-    if (!reduce) {
-      var steps = [[0,4,3],[1,4,2,1],[2,4,1,2],[3,4,0,3],[0,1,3,3],[0,2,3,2],[0,3,3,1]];
-      var si = 0;
-      setInterval(function () {
-        si = (si + 1) % steps.length;
-        if (map.getLayer('arc')) map.setPaintProperty('arc', 'line-dasharray', steps[si]);
-      }, 90);
-    }
 
     // Gentle auto-spin until the visitor grabs it; resumes after release.
     var spinning = !reduce, idle;

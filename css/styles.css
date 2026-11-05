@@ -96,16 +96,19 @@ a { color: inherit; text-decoration: none; }
    globe so the halo is always visible around the rim. */
 .hero::before {
   content: ""; position: absolute; z-index: 2; pointer-events: none;
-  width: 452px; height: 452px;
+  width: 520px; height: 520px;
   left: 65.5%; top: 50%; transform: translate(-50%, -50%);
   border-radius: 50%;
-  /* a thin, soft blue rim right at the globe's edge (~90% of this box) —
-     hugging the limb, not a thick halo. */
+  /* a thin blue rim hugging the globe's edge (~80% of this box), fading into a
+     soft hazy glow that dissolves gently outward into space. */
   background: radial-gradient(circle,
-    rgba(190, 222, 255, 0) 83%,
-    rgba(188, 221, 255, 0.5) 90%,
-    rgba(160, 205, 255, 0) 97%);
+    rgba(190, 222, 255, 0) 71%,
+    rgba(189, 221, 255, 0.5) 80%,
+    rgba(165, 207, 255, 0.2) 86%,
+    rgba(140, 190, 255, 0.07) 94%,
+    rgba(140, 190, 255, 0) 100%);
   mix-blend-mode: screen;
+  filter: blur(2.5px);
 }
 /* readability scrim: dark on the left, clear on the right */
 .hero-scrim {

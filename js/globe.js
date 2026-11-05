@@ -139,15 +139,18 @@
     window.addEventListener('resize', drawAtmo);
     drawAtmo();
 
-    // Keep the globe on a horizontal "turntable": lock the latitude so it only
-    // spins left/right. Near the poles MapLibre resizes/shifts the globe, which
-    // would break the fixed atmosphere ring — locking latitude keeps the globe
-    // centred and the same size, so the atmosphere always hugs the limb.
+    // Turntable: lock latitude so the globe only spins left/right and stays
+    // centred + the same size (near the poles MapLibre resizes/shifts it, which
+    // breaks the atmosphere ring). Reset the latitude whenever it drifts.
     var LOCK_LAT = map.getCenter().lat;
+    var locking = false;
     map.on('move', function () {
+      if (locking) return;
       var c = map.getCenter();
-      if (Math.abs(c.lat - LOCK_LAT) > 0.001) {
-        map.jumpTo({ center: [c.lng, LOCK_LAT] });
+      if (Math.abs(c.lat - LOCK_LAT) > 0.0005) {
+        locking = true;
+        map.setCenter([c.lng, LOCK_LAT]);
+        locking = false;
       }
     });
 

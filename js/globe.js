@@ -116,8 +116,13 @@
         actx.setTransform(adpr, 0, 0, adpr, 0, 0);
       }
       actx.clearRect(0, 0, w, h);
-      var c = map.project(map.getCenter());
+      // Fixed at the container centre so the atmosphere stays put while the
+      // Earth rotates underneath it (it must not drift with the drag).
+      var c = { x: w / 2, y: h / 2 };
       var R = globeRadius();
+      // Publish the globe's rotation so the starfield can parallax behind it.
+      var gc = map.getCenter();
+      window.__auraCenter = { lng: gc.lng, lat: gc.lat };
       // Glow straddles the limb (R*1.0): it bleeds a little onto the Earth's
       // edge and fades softly outward, so it hugs the surface with no gap.
       var g = actx.createRadialGradient(c.x, c.y, R * 0.90, c.x, c.y, R * 1.13);

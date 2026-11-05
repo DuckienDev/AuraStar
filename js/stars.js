@@ -10,6 +10,7 @@
 
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W = 0, H = 0, stars = [], meteors = [], last = 0, nextMeteor = 1200;
+  var rot = 0, lastLng = null; // continuous globe rotation, for star parallax
 
   function resize() {
     var r = canvas.getBoundingClientRect();
@@ -47,9 +48,21 @@
     var dt = t - last; last = t;
     ctx.clearRect(0, 0, W, H);
 
+    // Parallax from the globe's rotation (unwrapped so it never jumps), so the
+    // stars drift in 3D behind the spinning Earth.
+    var ctr = window.__auraCenter;
+    var ox = 0, oy = 0;
+    if (ctr && !reduce) {
+      if (lastLng === null) lastLng = ctr.lng;
+      var dl = ctr.lng - lastLng;
+      if (dl > 180) dl -= 360; else if (dl < -180) dl += 360;
+      rot += dl; lastLng = ctr.lng;
+      ox = -rot * (W / 360) * 0.85;
+      oy = ctr.lat * (H / 180) * 0.35;
+    }
+
     for (var i = 0; i < stars.length; i++) {
       var s = stars[i];
-      // occasional sparkle flash
       if (!reduce) {
         if (s.spark > 0) s.spark -= dt;
         else if (Math.random() < 0.0012) s.spark = 420 + Math.random() * 260;
@@ -58,16 +71,18 @@
       var sparkK = s.spark > 0 ? Math.sin((s.spark / 680) * Math.PI) : 0;
       var a = Math.min(1, base + sparkK * 0.5);
       var rad = s.r + sparkK * 1.2;
+      var px = ((s.x + ox) % W + W) % W;
+      var py = ((s.y + oy) % H + H) % H;
 
       // soft halo for brighter stars (a little glow)
       if (s.r > 1.05 || sparkK > 0.2) {
         ctx.globalAlpha = a * 0.25;
         ctx.fillStyle = '#cfe0ff';
-        ctx.beginPath(); ctx.arc(s.x, s.y, rad * 2.6, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(px, py, rad * 2.6, 0, Math.PI * 2); ctx.fill();
       }
       ctx.globalAlpha = a;
       ctx.fillStyle = '#ffffff';
-      ctx.beginPath(); ctx.arc(s.x, s.y, rad, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(px, py, rad, 0, Math.PI * 2); ctx.fill();
 
       // 4-point sparkle cross at peak
       if (sparkK > 0.35) {
@@ -75,8 +90,8 @@
         ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1;
         var L = rad * 4.5;
         ctx.beginPath();
-        ctx.moveTo(s.x - L, s.y); ctx.lineTo(s.x + L, s.y);
-        ctx.moveTo(s.x, s.y - L); ctx.lineTo(s.x, s.y + L);
+        ctx.moveTo(px - L, py); ctx.lineTo(px + L, py);
+        ctx.moveTo(px, py - L); ctx.lineTo(px, py + L);
         ctx.stroke();
       }
     }

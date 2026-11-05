@@ -88,7 +88,9 @@ a { color: inherit; text-decoration: none; }
 #stars { position: absolute; inset: 0; width: 100%; height: 100%;
   z-index: 0; pointer-events: none; }
 /* satellite globe, nudged to the right so it clears the headline on desktop */
-#globe { position: absolute; top: 0; bottom: 0; left: 24%; right: -7%; z-index: 1; }
+#globe { position: absolute; top: 0; bottom: 0; left: 24%; right: -7%; z-index: 1;
+  cursor: grab; }
+#globe:active { cursor: grabbing; }
 #globe canvas { outline: none; }
 /* White-blue atmosphere glow hugging the globe's limb. The globe's on-screen
    radius is fixed by its zoom (~200px), centred at ~65.5% / 50% of the hero,
@@ -114,8 +116,12 @@ a { color: inherit; text-decoration: none; }
   position: relative; z-index: 3;
   width: 100%; max-width: var(--maxw); margin: 0 auto;
   padding: 120px 24px 90px;
+  /* let drags pass through the empty copy area to the globe behind it */
+  pointer-events: none;
 }
 .hero-inner > * { max-width: 620px; }
+/* re-enable interaction only for the things people actually click */
+.hero-inner .signup, .hero-inner .badge { pointer-events: auto; }
 
 .badge {
   display: inline-flex; align-items: center; gap: 8px;

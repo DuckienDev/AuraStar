@@ -139,38 +139,57 @@
     window.addEventListener('resize', drawAtmo);
     drawAtmo();
 
-    // Turntable: lock latitude so the globe only spins left/right and stays
-    // centred + the same size (near the poles MapLibre resizes/shifts it, which
-    // breaks the atmosphere ring). Reset the latitude whenever it drifts.
-    var LOCK_LAT = map.getCenter().lat;
-    var locking = false;
-    map.on('move', function () {
-      if (locking) return;
-      var c = map.getCenter();
-      if (Math.abs(c.lat - LOCK_LAT) > 0.0005) {
-        locking = true;
-        map.setCenter([c.lng, LOCK_LAT]);
-        locking = false;
-      }
-    });
+    // ---- Smooth horizontal turntable (custom drag + inertia) --------------
+    // MapLibre's dragPan also changes latitude (→ the globe resizes near the
+    // poles and the atmosphere breaks) and its easeTo spin stutters against the
+    // lat reset. So we drive the rotation ourselves: one jumpTo per frame,
+    // longitude only, latitude pinned — buttery smooth and always hugging.
+    map.dragPan.disable();
+    var LAT = map.getCenter().lat;
+    var autoSpin = !reduce;
+    var dragging = false, lastX = 0, vel = 0, idleTimer = null;
+    var el = map.getContainer();
+    el.style.touchAction = 'pan-y'; // let vertical swipes scroll the page
+    el.style.cursor = 'grab';
 
-    // Gentle auto-spin until the visitor grabs it; resumes after release.
-    var spinning = !reduce, idle;
-    function spin() {
-      if (!spinning) return;
-      var c = map.getCenter();
-      c.lng -= 0.34;
-      map.easeTo({ center: c, duration: 1000, easing: function (t) { return t; } });
+    function setLng(lng) { map.jumpTo({ center: [lng, LAT] }); }
+
+    function tick() {
+      if (!dragging) {
+        if (Math.abs(vel) > 0.004) {              // inertia after a fling
+          setLng(map.getCenter().lng + vel);
+          vel *= 0.95;
+        } else if (autoSpin) {                     // gentle idle spin
+          setLng(map.getCenter().lng - 0.05);
+        }
+      }
+      requestAnimationFrame(tick);
     }
-    map.on('moveend', function () { if (spinning) spin(); });
-    function pause() { spinning = false; clearTimeout(idle); }
-    function resume() { clearTimeout(idle); idle = setTimeout(function () {
-      spinning = !reduce; spin(); }, 2600); }
-    map.on('mousedown', pause); map.on('touchstart', pause);
-    map.on('dragstart', pause);
-    map.on('mouseup', resume); map.on('touchend', resume); map.on('dragend', resume);
-    map.dragPan.enable();
-    if (spinning) spin();
+    requestAnimationFrame(tick);
+
+    function onDown(e) {
+      dragging = true; lastX = e.clientX; vel = 0;
+      autoSpin = false; clearTimeout(idleTimer);
+      el.style.cursor = 'grabbing';
+    }
+    function onMove(e) {
+      if (!dragging) return;
+      var dx = e.clientX - lastX; lastX = e.clientX;
+      var dLng = -dx * (330 / Math.max(700, el.clientWidth));
+      setLng(map.getCenter().lng + dLng);
+      vel = dLng; // carry the last delta as fling velocity
+    }
+    function onUp() {
+      if (!dragging) return;
+      dragging = false;
+      el.style.cursor = 'grab';
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () { autoSpin = !reduce; }, 3000);
+    }
+    el.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
   });
 
   map.on('error', function () { /* keep the page alive if tiles hiccup */ });

@@ -93,18 +93,6 @@
       });
     } catch (e) {}
 
-    var dots = Object.keys(CITIES).map(function (k) {
-      return { type: 'Feature', geometry: { type: 'Point', coordinates: CITIES[k] } };
-    });
-
-    map.addSource('dots', { type: 'geojson',
-      data: { type: 'FeatureCollection', features: dots } });
-    map.addLayer({ id: 'dot-glow', type: 'circle', source: 'dots',
-      paint: { 'circle-color': '#FFB84D', 'circle-radius': 9, 'circle-blur': 1, 'circle-opacity': 0.5 } });
-    map.addLayer({ id: 'dot', type: 'circle', source: 'dots',
-      paint: { 'circle-color': '#FFE3B0', 'circle-radius': 3,
-        'circle-stroke-color': '#FFB84D', 'circle-stroke-width': 1.4 } });
-
     // Gentle auto-spin until the visitor grabs it; resumes after release.
     var spinning = !reduce, idle;
     function spin() {

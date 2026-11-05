@@ -118,14 +118,17 @@
       actx.clearRect(0, 0, w, h);
       var c = map.project(map.getCenter());
       var R = globeRadius();
-      var g = actx.createRadialGradient(c.x, c.y, R * 0.965, c.x, c.y, R * 1.16);
-      g.addColorStop(0.0, 'rgba(198,226,255,0)');
-      g.addColorStop(0.2, 'rgba(197,225,255,0.6)');   // thin bright rim at the limb
-      g.addColorStop(0.45, 'rgba(150,198,255,0.22)');
-      g.addColorStop(1.0, 'rgba(130,185,255,0)');     // soft hazy fade outward
+      // Glow straddles the limb (R*1.0): it bleeds a little onto the Earth's
+      // edge and fades softly outward, so it hugs the surface with no gap.
+      var g = actx.createRadialGradient(c.x, c.y, R * 0.90, c.x, c.y, R * 1.13);
+      g.addColorStop(0.0, 'rgba(200,228,255,0)');
+      g.addColorStop(0.30, 'rgba(198,226,255,0.35)'); // onto the Earth's edge
+      g.addColorStop(0.44, 'rgba(206,233,255,0.72)'); // brightest right at the limb
+      g.addColorStop(0.62, 'rgba(150,200,255,0.25)'); // just outside
+      g.addColorStop(1.0, 'rgba(130,185,255,0)');     // soft hazy fade
       actx.globalCompositeOperation = 'lighter';
       actx.fillStyle = g;
-      actx.beginPath(); actx.arc(c.x, c.y, R * 1.16, 0, Math.PI * 2); actx.fill();
+      actx.beginPath(); actx.arc(c.x, c.y, R * 1.13, 0, Math.PI * 2); actx.fill();
     }
     map.on('render', drawAtmo);
     window.addEventListener('resize', drawAtmo);

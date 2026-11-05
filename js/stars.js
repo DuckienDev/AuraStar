@@ -108,6 +108,7 @@
   }
 
   window.addEventListener('resize', resize);
+  window.addEventListener('load', resize);
   resize();
   requestAnimationFrame(frame);
 })();

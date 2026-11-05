@@ -82,25 +82,28 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   border-bottom: 1px solid var(--border);
 }
-#globe { position: absolute; inset: 0; z-index: 0; }
+/* black sky + sparse stars + shooting stars (behind everything) */
+#stars { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+/* satellite globe, nudged to the right so it clears the headline on desktop */
+#globe { position: absolute; top: 0; bottom: 0; left: 24%; right: -7%; z-index: 1; }
 #globe canvas { outline: none; }
 /* atmosphere halo behind the globe */
 .hero::before {
   content: ""; position: absolute; z-index: 0;
-  width: min(92vmin, 900px); height: min(92vmin, 900px);
-  left: 58%; top: 50%; transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(90, 150, 255, 0.16) 0%, rgba(90, 150, 255, 0) 62%);
+  width: min(92vmin, 880px); height: min(92vmin, 880px);
+  left: 70%; top: 50%; transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(90, 150, 255, 0.18) 0%, rgba(90, 150, 255, 0) 62%);
   pointer-events: none;
 }
 /* readability scrim: dark on the left, clear on the right */
 .hero-scrim {
-  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
   background:
-    radial-gradient(130% 90% at 12% 50%, rgba(5, 8, 15, 0.92) 0%, rgba(5, 8, 15, 0.55) 34%, rgba(5, 8, 15, 0) 62%),
+    radial-gradient(130% 90% at 10% 50%, rgba(5, 8, 15, 0.92) 0%, rgba(5, 8, 15, 0.5) 32%, rgba(5, 8, 15, 0) 60%),
     linear-gradient(to top, rgba(5, 8, 15, 0.85) 0%, rgba(5, 8, 15, 0) 28%);
 }
 .hero-inner {
-  position: relative; z-index: 2;
+  position: relative; z-index: 3;
   width: 100%; max-width: var(--maxw); margin: 0 auto;
   padding: 120px 24px 90px;
 }
@@ -133,8 +136,11 @@ h1.display em {
   text-shadow: 0 0 40px rgba(255, 184, 77, 0.25);
   padding-right: 0.06em;
 }
-.tagline-vi { font-family: var(--serif); font-style: italic; font-size: clamp(18px, 2.4vw, 24px);
-  color: var(--muted); margin: 0 0 20px; }
+/* Uses Inter (full Vietnamese support) in italic — Instrument Serif lacks the
+   Vietnamese diacritics, so the serif is kept only for the English headline. */
+.tagline-vi { font-family: var(--font); font-style: italic; font-weight: 500;
+  font-size: clamp(17px, 2.2vw, 22px); letter-spacing: 0.2px;
+  color: var(--gold-2); opacity: 0.92; margin: 0 0 20px; }
 .lead { color: var(--muted); font-size: clamp(16px, 1.6vw, 18px); margin: 0 0 30px; }
 
 .signup { display: flex; gap: 10px; flex-wrap: wrap; max-width: 520px; }
@@ -160,7 +166,7 @@ h1.display em {
 .note { color: var(--muted-2); font-size: 13px; margin: 14px 0 0; }
 
 .scroll-cue {
-  position: absolute; left: 50%; bottom: 22px; z-index: 2;
+  position: absolute; left: 50%; bottom: 22px; z-index: 3;
   transform: translateX(-50%);
   width: 26px; height: 42px; border: 1.5px solid var(--border-2); border-radius: 14px;
 }
@@ -245,6 +251,7 @@ footer { border-top: 1px solid var(--border); padding: 30px 0; }
 @media (max-width: 900px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
   .screens { grid-template-columns: repeat(2, 1fr); }
+  #globe { left: 0; right: 0; }
   .hero::before { left: 50%; top: 42%; }
   .hero-scrim { background:
     linear-gradient(to top, rgba(5,8,15,0.95) 0%, rgba(5,8,15,0.55) 42%, rgba(5,8,15,0.2) 100%); }
@@ -287,3 +294,29 @@ footer { border-top: 1px solid var(--border); padding: 30px 0; }
 .legal-nav { margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--border);
   font-family: var(--display); font-size: 15px; }
 .legal-nav a { border-bottom: 0; }
+
+/* ---- Scroll-reveal (3D on scroll) -------------------------------------- */
+.cards, .screens { perspective: 1200px; }
+.js .reveal {
+  opacity: 0; transform: translateY(42px) scale(0.98);
+  transition: opacity 0.75s cubic-bezier(0.2, 0.7, 0.2, 1),
+              transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.in { opacity: 1; transform: none; }
+/* cards tilt up from a 3D plane */
+.js .cards .reveal { transform: translateY(48px) rotateX(14deg); transform-origin: 50% 0; }
+.cards .reveal.in { transform: none; }
+/* phones rise with a parallax offset driven by scroll.js (--py) */
+.js .screens .reveal { transform: translateY(52px) rotateX(10deg) scale(0.97); }
+.screens .reveal.in { transform: translateY(var(--py, 0px)); }
+/* stagger within a row */
+.cards .reveal:nth-child(2), .screens .reveal:nth-child(2) { transition-delay: 0.08s; }
+.cards .reveal:nth-child(3), .screens .reveal:nth-child(3) { transition-delay: 0.16s; }
+.cards .reveal:nth-child(4), .screens .reveal:nth-child(4) { transition-delay: 0.24s; }
+.cards .reveal:nth-child(5) { transition-delay: 0.32s; }
+.cards .reveal:nth-child(6) { transition-delay: 0.40s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .cards .reveal, .screens .reveal { opacity: 1; transform: none; transition: none; }
+}

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delete your account — Aura Star</title>
+  <meta name="description" content="Request deletion of your Aura Star account and data." />
+  <meta name="theme-color" content="#05080f" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=15" />
+</head>
+<body>
+  <nav class="nav">
+    <a class="brand" href="index.html" aria-label="Aura Star home">
+      <img src="assets/star.png" alt="" /><span>Aura&nbsp;Star</span>
+    </a>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="en" type="button">EN</button>
+        <button class="lang-btn" data-lang="vi" type="button">VI</button>
+      </div>
+      <a class="navcta" href="index.html" data-en="← Back" data-vi="← Quay lại">← Back</a>
+    </div>
+  </nav>
+
+  <main class="legal wrap">
+    <p class="eyebrow" data-en="Account" data-vi="Tài khoản">Account</p>
+    <h1 data-en="Delete your account" data-vi="Xóa tài khoản của bạn">Delete your account</h1>
+    <p class="updated" data-en="Last updated: 6 November 2026" data-vi="Cập nhật lần cuối: 6 tháng 11 năm 2026">Last updated: 6 November 2026</p>
+
+    <p data-en="You can ask us to permanently delete your Aura Star account and the personal data linked to it at any time. This page explains what is removed and how to make the request." data-vi="Bạn có thể yêu cầu chúng tôi xóa vĩnh viễn tài khoản Aura Star và dữ liệu cá nhân liên quan bất cứ lúc nào. Trang này giải thích những gì sẽ bị xóa và cách gửi yêu cầu.">You can ask us to permanently delete your Aura Star account and the personal data linked to it at any time. This page explains what is removed and how to make the request.</p>
+
+    <h2 data-en="Delete it inside the app" data-vi="Xóa ngay trong ứng dụng">Delete it inside the app</h2>
+    <p data-en="If you are signed in, the fastest way is: open Aura Star → Profile → Settings → Delete account, then confirm. Your account and data are removed right away." data-vi="Nếu bạn đã đăng nhập, cách nhanh nhất là: mở Aura Star → Hồ sơ → Cài đặt → Xóa tài khoản, rồi xác nhận. Tài khoản và dữ liệu của bạn sẽ được xóa ngay.">If you are signed in, the fastest way is: open Aura Star → Profile → Settings → Delete account, then confirm. Your account and data are removed right away.</p>
+
+    <h2 data-en="Or request it here" data-vi="Hoặc gửi yêu cầu tại đây">Or request it here</h2>
+    <p data-en="If you can't open the app, enter the email address you signed up with and we'll delete the account for you. We may contact that address to verify the request before deleting." data-vi="Nếu bạn không thể mở ứng dụng, hãy nhập địa chỉ email bạn đã đăng ký và chúng tôi sẽ xóa tài khoản giúp bạn. Chúng tôi có thể liên hệ qua email đó để xác minh yêu cầu trước khi xóa.">If you can't open the app, enter the email address you signed up with and we'll delete the account for you. We may contact that address to verify the request before deleting.</p>
+
+    <form class="delreq" id="del-form" novalidate>
+      <label class="sr-only" for="del-email" data-en="Your account email" data-vi="Email tài khoản của bạn">Your account email</label>
+      <input id="del-email" type="email" required
+             data-ph-en="Your account email" data-ph-vi="Email tài khoản của bạn"
+             placeholder="Your account email" autocomplete="email" />
+      <textarea id="del-note" rows="3"
+             data-ph-en="Anything else we should know? (optional)" data-ph-vi="Bạn muốn nói thêm điều gì? (không bắt buộc)"
+             placeholder="Anything else we should know? (optional)"></textarea>
+      <button type="submit" id="del-btn" data-en="Request deletion" data-vi="Gửi yêu cầu xóa">Request deletion</button>
+      <p class="delreq-msg" id="del-msg" aria-live="polite"></p>
+    </form>
+
+    <h2 data-en="What gets deleted" data-vi="Những gì sẽ bị xóa">What gets deleted</h2>
+    <p data-en="Your profile, your moments and photos, comments and reactions, friends and friend requests, approximate location data, and your sign-in credentials. Once deletion is complete this cannot be undone." data-vi="Hồ sơ của bạn, các khoảnh khắc và ảnh, bình luận và cảm xúc, bạn bè và lời mời kết bạn, dữ liệu vị trí tương đối, và thông tin đăng nhập của bạn. Sau khi xóa xong, thao tác này không thể hoàn tác.">Your profile, your moments and photos, comments and reactions, friends and friend requests, approximate location data, and your sign-in credentials. Once deletion is complete this cannot be undone.</p>
+
+    <h2 data-en="Timing &amp; what we keep" data-vi="Thời gian &amp; những gì chúng tôi giữ lại">Timing &amp; what we keep</h2>
+    <p data-en="Requests made in the app take effect immediately. Requests sent from this page are processed within 30 days. We may retain a limited amount of data for longer only where the law requires it (for example, to prevent fraud or abuse); that data is not used for any other purpose." data-vi="Yêu cầu thực hiện trong ứng dụng có hiệu lực ngay lập tức. Yêu cầu gửi từ trang này được xử lý trong vòng 30 ngày. Chúng tôi có thể giữ lại một lượng dữ liệu hạn chế lâu hơn chỉ khi pháp luật yêu cầu (ví dụ để ngăn gian lận hoặc lạm dụng); dữ liệu đó không được dùng cho bất kỳ mục đích nào khác.">Requests made in the app take effect immediately. Requests sent from this page are processed within 30 days. We may retain a limited amount of data for longer only where the law requires it (for example, to prevent fraud or abuse); that data is not used for any other purpose.</p>
+
+    <h2 data-en="Need help?" data-vi="Cần trợ giúp?">Need help?</h2>
+    <p data-en="You can also email us at support@aurastar.app and we'll handle it." data-vi="Bạn cũng có thể gửi email tới support@aurastar.app và chúng tôi sẽ xử lý.">You can also email us at <a href="mailto:support@aurastar.app?subject=Delete%20my%20Aura%20Star%20account">support@aurastar.app</a> and we'll handle it.</p>
+
+    <p class="legal-nav" data-en="<a href=&quot;privacy.html&quot;>Privacy Policy</a> · <a href=&quot;terms.html&quot;>Terms of Service</a> · <a href=&quot;index.html&quot;>Home</a>" data-vi="<a href=&quot;privacy.html&quot;>Chính sách quyền riêng tư</a> · <a href=&quot;terms.html&quot;>Điều khoản dịch vụ</a> · <a href=&quot;index.html&quot;>Trang chủ</a>"><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="index.html">Home</a></p>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <a class="brand" href="index.html"><img src="assets/star.png" alt="" width="22" /><span>Aura Star</span></a>
+      <div class="links">
+        <a href="index.html#features" data-en="Features" data-vi="Tính năng">Features</a>
+        <a href="privacy.html" data-en="Privacy" data-vi="Quyền riêng tư">Privacy</a>
+        <a href="terms.html" data-en="Terms" data-vi="Điều khoản">Terms</a>
+        <a href="guidelines.html" data-en="Guidelines" data-vi="Nguyên tắc">Guidelines</a>
+        <a href="delete-account.html" data-en="Delete account" data-vi="Xóa tài khoản">Delete account</a>
+      </div>
+      <span class="copyright">© <span id="year">2026</span> <span data-en="Aura Star · Every moment is a star." data-vi="Aura Star · Mỗi khoảnh khắc là một vì sao.">Aura Star · Every moment is a star.</span></span>
+    </div>
+  </footer>
+  <script src="js/i18n.js?v=15"></script>
+  <script src="js/delete-request.js?v=15"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

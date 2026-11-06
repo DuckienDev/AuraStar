@@ -309,6 +309,32 @@ footer { border-top: 1px solid var(--border); padding: 30px 0; }
   font-family: var(--display); font-size: 15px; }
 .legal-nav a { border-bottom: 0; }
 
+/* ---- Account-deletion request form ------------------------------------- */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.delreq { margin: 20px 0 8px; max-width: 520px;
+  display: flex; flex-direction: column; gap: 12px; }
+.delreq input, .delreq textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 13px 15px; outline: none; resize: vertical;
+  transition: border-color 0.2s ease, background 0.2s ease; }
+.delreq input::placeholder, .delreq textarea::placeholder { color: var(--muted-2); }
+.delreq input:focus, .delreq textarea:focus {
+  border-color: rgba(255, 184, 77, 0.55); background: rgba(255, 255, 255, 0.06); }
+.delreq button {
+  align-self: flex-start; font-family: var(--display); font-weight: 600;
+  font-size: 15px; color: #1a1206; cursor: pointer; border: 0;
+  padding: 12px 22px; border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold-2), var(--gold));
+  transition: opacity 0.2s ease, transform 0.15s ease; }
+.delreq button:hover { transform: translateY(-1px); }
+.delreq button:disabled { opacity: 0.55; cursor: default; transform: none; }
+.delreq-msg { min-height: 1.2em; margin: 2px 0 0; font-size: 15px; line-height: 1.6; }
+.delreq-msg.ok { color: var(--gold-2); }
+.delreq-msg.err { color: #ff9b8a; }
+
 /* ---- Scroll-reveal (3D on scroll) -------------------------------------- */
 .cards, .screens { perspective: 1200px; }
 .js .reveal {
